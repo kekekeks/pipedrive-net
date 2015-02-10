@@ -11,6 +11,7 @@ namespace PipedriveNet.Dto
         public int Id { get; set; }
         public string Title { get; set; }
         public int StageId { get; set; }
+        public int PipelineId { get; set; }
         public PersonIdDto PersonId { get; set; }
         public DealStatus Status { get; set; }
     }
