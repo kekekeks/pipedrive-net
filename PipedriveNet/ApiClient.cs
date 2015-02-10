@@ -10,6 +10,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 
 namespace PipedriveNet
@@ -28,6 +29,7 @@ namespace PipedriveNet
 			_apiKey = apiKey;
 		    _resolver = resolver;
 		    Serializer.ContractResolver = resolver;
+		    Serializer.Converters.Add(new StringEnumConverter {CamelCaseText = true});
 		    HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 

@@ -45,9 +45,15 @@
   <ItemGroup>
     <Compile Include="ApiClient.cs" />
     <Compile Include="ContractResolver.cs" />
+    <Compile Include="Dto\DealDto.cs" />
     <Compile Include="Dto\PersonDto.cs" />
     <Compile Include="Dto\PipedriveStringListItemDto.cs" />
+    <Compile Include="Dto\PipelineDto.cs" />
+    <Compile Include="Dto\StageDto.cs" />
+    <Compile Include="Endpoints\DealsEndpoint.cs" />
     <Compile Include="Endpoints\PersonsEndpoint.cs" />
+    <Compile Include="Endpoints\PipelinesEndpoint.cs" />
+    <Compile Include="Endpoints\StagesEndpoint.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="PipedriveClient.cs" />
     <Compile Include="PipedriveException.cs" />
