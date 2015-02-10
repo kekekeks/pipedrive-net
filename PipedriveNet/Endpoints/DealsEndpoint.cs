@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
+using PipedriveNet.Dto;
 
 namespace PipedriveNet.Endpoints
 {
@@ -23,6 +24,15 @@ namespace PipedriveNet.Endpoints
             return _client.Get<TDeal>("deals/" + id);
         }
 
+        public Task<List<TDeal>> GetByPersonId(int personId, DealStatus? status = null)
+        {
+            var ep = "persons/" + personId + "/deals";
+            if (status != null)
+                ep += "?status" + status.ToString().ToLower();
+            return _client.Get<List<TDeal>>(ep);
+        }
+
+
         public Task<TDeal> Create(string title, string value = null, string currency = null, int? personId = null,
             int? stageId = null)
         {
@@ -37,6 +47,18 @@ namespace PipedriveNet.Endpoints
             if (stageId != null)
                 req["stage_id"] = stageId;
             return _client.Post<TDeal>("deals", req);
+        }
+
+        public Task<TDeal> Update(int id, string title = null, DealStatus? status = null, int? stageId = null)
+        {
+            var req = new JObject();
+            if (title != null)
+                req["title"] = title;
+            if (status != null)
+                req["status"] = status.ToString().ToLower();
+            if (stageId != null)
+                req["stage_id"] = stageId;
+           return _client.Put<TDeal>("deals/" + id, req);
         }
     }
 }

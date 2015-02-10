@@ -41,7 +41,7 @@ namespace PipedriveNet
 
 	    Uri GetUri(string endpoint)
 	    {
-	        return new Uri(ApiBase + endpoint + "?api_token=" + _apiKey);
+	        return new Uri(ApiBase + endpoint + (endpoint.Contains("?") ? "&" : "?") + "api_token=" + _apiKey);
 	    }
 
 	    sealed class ResponseContainer<T>
@@ -95,6 +95,11 @@ namespace PipedriveNet
 	    {
             return Send<T>(endpoint, HttpMethod.Post, data);
 
+	    }
+
+	    public Task<T> Put<T>(string endpoint, object data)
+	    {
+            return Send<T>(endpoint, HttpMethod.Put, data);
 	    }
 	}
 }
