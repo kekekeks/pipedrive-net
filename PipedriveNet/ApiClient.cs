@@ -58,6 +58,12 @@ namespace PipedriveNet
 	            var container = Serializer.Deserialize<ResponseContainer<T>>(new JsonTextReader(new StreamReader(stream)));
                 if(!container.Success)
                     throw new PipedriveException(container.Error);
+
+                //Replace null by empty list
+	            if (container.Data == null && typeof (T).IsGenericType &&
+	                typeof (T).GetGenericTypeDefinition() == typeof (List<>))
+	                container.Data = Activator.CreateInstance<T>();
+
 	            return container.Data;
 	        }
 	    }
