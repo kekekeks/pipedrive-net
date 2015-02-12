@@ -49,7 +49,7 @@ namespace PipedriveNet.Endpoints
             return _client.Post<TDeal>("deals", req);
         }
 
-        public Task<TDeal> Update(int id, string title = null, DealStatus? status = null, int? stageId = null)
+        public Task<TDeal> Update(int id, string title = null, DealStatus? status = null, int? stageId = null, string value = null)
         {
             var req = new JObject();
             if (title != null)
@@ -58,7 +58,14 @@ namespace PipedriveNet.Endpoints
                 req["status"] = status.ToString().ToLower();
             if (stageId != null)
                 req["stage_id"] = stageId;
+            if (value != null)
+                req["value"] = value;
            return _client.Put<TDeal>("deals/" + id, req);
+        }
+
+        public Task<TDeal> Merge(int id, int mergeWith)
+        {
+            return _client.Put<TDeal>("deals/" + id + "/duplicate", new {MergeWithId = mergeWith});
         }
     }
 }
