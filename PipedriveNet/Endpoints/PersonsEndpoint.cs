@@ -21,21 +21,32 @@ namespace PipedriveNet.Endpoints
 	        get { return _client.Get<List<TPerson>>("persons"); }
 	    }
 
-	    public Task<TPerson> Create(string name, string email, string phone, Dictionary<Expression<Func<TPerson,object>>, object> extras = null)
+        JObject PreparePersonData(string name, string email, string phone, Dictionary<Expression<Func<TPerson, object>>, object> extras = null)
 	    {
-	        var req = new JObject();
-	        req["name"] = name;
-	        if (email != null)
-	            req["email"] = email;
-	        if (phone != null)
-	            req["phone"] = phone;
-            if(extras!=null)
+            var req = new JObject();
+            req["name"] = name;
+            if (email != null)
+                req["email"] = email;
+            if (phone != null)
+                req["phone"] = phone;
+            if (extras != null)
                 foreach (var extra in extras)
                 {
                     req[_client.ResolveProperty(extra.Key)] = JToken.FromObject(extra.Value, _client.Serializer);
                 }
-	        return _client.Post<TPerson>("persons", req);
+            return req;
 	    }
+
+	    public Task<TPerson> Create(string name, string email, string phone, Dictionary<Expression<Func<TPerson,object>>, object> extras = null)
+	    {
+
+	        return _client.Post<TPerson>("persons", PreparePersonData(name, email, phone, extras));
+	    }
+
+        public Task<TPerson> Update(int id, string name, string email, string phone, Dictionary<Expression<Func<TPerson, object>>, object> extras = null)
+        {
+            return _client.Put<TPerson>("persons/" + id, PreparePersonData(name, email, phone, extras));
+        }
 
 	    public Task Delete(int id)
 	    {
