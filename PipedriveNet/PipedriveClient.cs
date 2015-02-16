@@ -28,7 +28,8 @@ namespace PipedriveNet
 
 	    public PipedriveClient(string apiKey)
 	    {
-		    var client = new ApiClient(apiKey, _resolver);
+	        if (apiKey == null) throw new ArgumentNullException("apiKey");
+	        var client = new ApiClient(apiKey, _resolver);
 		    Persons = new PersonsEndpoint<TPerson>(client);
             Pipelines = new PipelinesEndpoint<TPipeline>(client);
             Stages = new StagesEndpoint<TStage>(client);
@@ -46,6 +47,9 @@ namespace PipedriveNet
 
             public CustomFieldConfigurator<T> Field<TField>(Expression<Func<T, TField>> field, string key)
             {
+                if (field == null) throw new ArgumentNullException("field");
+                if (key == null) throw new ArgumentNullException("key");
+
                 _resolver.Register(field.ExtractProperty(), key);
                 return this;
             }
