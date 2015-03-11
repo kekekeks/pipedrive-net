@@ -67,5 +67,10 @@ namespace PipedriveNet.Endpoints
         {
             return _client.Put<TDeal>("deals/" + id + "/duplicate", new {MergeWithId = mergeWith});
         }
+
+        public Task Delete(int id)
+        {
+            return _client.Delete("deals/" + id);
+        }
     }
 }
