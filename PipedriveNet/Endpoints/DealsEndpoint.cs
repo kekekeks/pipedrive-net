@@ -34,7 +34,7 @@ namespace PipedriveNet.Endpoints
 
 
         public Task<TDeal> Create(string title, string value = null, string currency = null, int? personId = null,
-            int? stageId = null)
+            int? stageId = null, int? userId = null)
         {
             var req = new JObject();
             req["title"] = title;
@@ -46,6 +46,8 @@ namespace PipedriveNet.Endpoints
                 req["person_id"] = personId;
             if (stageId != null)
                 req["stage_id"] = stageId;
+            if (userId != null)
+                req["user_id"] = userId;
             return _client.Post<TDeal>("deals", req);
         }
 
