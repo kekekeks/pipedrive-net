@@ -24,7 +24,9 @@ namespace PipedriveNet
 		public PersonsEndpoint<TPerson> Persons { get; private set; }
         public PipelinesEndpoint<TPipeline> Pipelines { get; private set; }
         public StagesEndpoint<TStage> Stages { get; private set; }
-        public DealsEndpoint<TDeal> Deals { get; private set; } 
+        public DealsEndpoint<TDeal> Deals { get; private set; }
+        public ActivitesEndpoint Activites { get; private set; }
+        public NotesEndpoint Notes { get; private set; }
 
 	    public PipedriveClient(string apiKey)
 	    {
@@ -34,6 +36,8 @@ namespace PipedriveNet
             Pipelines = new PipelinesEndpoint<TPipeline>(client);
             Stages = new StagesEndpoint<TStage>(client);
 	        Deals = new DealsEndpoint<TDeal>(client);
+            Activites = new ActivitesEndpoint(client);
+	        Notes = new NotesEndpoint(client);
 	    }
 
         public class CustomFieldConfigurator<T>

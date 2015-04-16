@@ -27,8 +27,10 @@ namespace PipedriveNet.Endpoints
         public Task<List<TDeal>> GetByPersonId(int personId, DealStatus? status = null)
         {
             var ep = "persons/" + personId + "/deals";
+            var qs = new QueryString() {{"limit", "9000"}};
             if (status != null)
-                ep += "?status" + status.ToString().ToLower();
+                qs["status"] = status.ToString().ToLower();
+            ep += qs;
             return _client.Get<List<TDeal>>(ep);
         }
 
