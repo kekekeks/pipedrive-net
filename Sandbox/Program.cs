@@ -13,7 +13,7 @@ namespace Sandbox
 	{
 		static void Main(string[] args)
 		{
-		    var client = new PipedriveClient<CustomPerson, PipelineDto, StageDto, DealDto>(args[0]);
+		    var client = new PipedriveClient<CustomPerson, PipelineDto, StageDto, DealDto, UserDto>(args[0]);
 		    client.Configure<CustomPerson>().Field(p => p.CustomUserId, "44b58b24007b8a3ae247218ce0d0f7c475fc1514");
 
 		    var firstStage = client.Stages.All.Result.First();
