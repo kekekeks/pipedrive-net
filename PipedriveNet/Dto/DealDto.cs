@@ -25,8 +25,8 @@ namespace PipedriveNet.Dto
     {
         public int Value { get; set; }
         public string Name { get; set; }
-        public string Email { get; set; }
-        public string Phone { get; set; }
+        public List<PipedriveStringListItemDto> Email { get; set; }
+        public List<PipedriveStringListItemDto> Phone { get; set; }
 
     }
 
