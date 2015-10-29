@@ -30,8 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -47,16 +48,19 @@
     <Compile Include="ContractResolver.cs" />
     <Compile Include="Dto\ActivityDto.cs" />
     <Compile Include="Dto\DealDto.cs" />
+    <Compile Include="Dto\OrganizationDto.cs" />
     <Compile Include="Dto\PersonDto.cs" />
     <Compile Include="Dto\PipedriveStringListItemDto.cs" />
     <Compile Include="Dto\PipelineDto.cs" />
     <Compile Include="Dto\StageDto.cs" />
+    <Compile Include="Dto\UserDto.cs" />
     <Compile Include="Endpoints\DealsEndpoint.cs" />
     <Compile Include="Endpoints\NotesEndpoint.cs" />
     <Compile Include="Endpoints\PersonsEndpoint.cs" />
     <Compile Include="Endpoints\PipelinesEndpoint.cs" />
     <Compile Include="Endpoints\ActivitiesEndpoint.cs" />
     <Compile Include="Endpoints\StagesEndpoint.cs" />
+    <Compile Include="Endpoints\UsersEndpoint.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="PipedriveClient.cs" />
     <Compile Include="PipedriveException.cs" />
