@@ -15,7 +15,7 @@ namespace PipedriveNet.Dto
         public PersonIdDto PersonId { get; set; }
         public DealStatus Status { get; set; }
         public OrgIdDto OrgId { get; set; }
-        public DateTime Value { get; set; }
+        public int Value { get; set; }
         public DateTime AddTime { get; set; }
         public DateTime WonTime { get; set; }
         public DateTime LostTime { get; set; }
