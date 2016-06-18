@@ -14,6 +14,12 @@ namespace PipedriveNet.Dto
         public int PipelineId { get; set; }
         public PersonIdDto PersonId { get; set; }
         public DealStatus Status { get; set; }
+        public int Value { get; set; }
+        public DateTime AddTime { get; set; }
+        public DateTime? WonTime { get; set; }
+        public DateTime? LostTime { get; set; }
+        public DateTime? CloseTime { get; set; }
+        public DateTime? ExpectedCloseTime { get; set; }
     }
 
     public enum DealStatus
@@ -27,7 +33,6 @@ namespace PipedriveNet.Dto
         public string Name { get; set; }
         public List<PipedriveStringListItemDto> Email { get; set; }
         public List<PipedriveStringListItemDto> Phone { get; set; }
-
     }
 
     /*
