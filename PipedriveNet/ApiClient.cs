@@ -91,8 +91,15 @@ namespace PipedriveNet
 	        return Deserialize<T>(HttpClient.SendAsync(message));
 	    }
 
+        Task<T> SendMultipart<T>(string endpoint, HttpMethod method, MultipartFormDataContent form)
+        {
+            HttpClient httpClient = new HttpClient();
+            var message = new HttpRequestMessage(method, GetUri(endpoint));
+            return Deserialize<T>(httpClient.PostAsync(message.RequestUri, form));
+            httpClient.Dispose();
+        }
 
-	    public Task Delete(string endpoint)
+        public Task Delete(string endpoint)
 	    {
 	        return Send<object>(endpoint, HttpMethod.Delete, null);
 	    }
@@ -103,7 +110,13 @@ namespace PipedriveNet
 
 	    }
 
-	    public Task<T> Put<T>(string endpoint, object data)
+        public Task<T> PostMultipart<T>(string endpoint, MultipartFormDataContent data)
+        {
+            return SendMultipart<T>(endpoint, HttpMethod.Post, data);
+
+        }
+
+        public Task<T> Put<T>(string endpoint, object data)
 	    {
             return Send<T>(endpoint, HttpMethod.Put, data);
 	    }

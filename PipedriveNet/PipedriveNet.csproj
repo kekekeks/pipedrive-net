@@ -59,10 +59,12 @@
     <Compile Include="Dto\PersonFindDto.cs" />
     <Compile Include="Dto\PipedriveStringListItemDto.cs" />
     <Compile Include="Dto\PipelineDto.cs" />
+    <Compile Include="Dto\FileDto.cs" />
     <Compile Include="Dto\StageDto.cs" />
     <Compile Include="Dto\UserDto.cs" />
     <Compile Include="Endpoints\DealsEndpoint.cs" />
     <Compile Include="Endpoints\NotesEndpoint.cs" />
+    <Compile Include="Endpoints\FilesEndpoint.cs" />
     <Compile Include="Endpoints\PersonsEndpoint.cs" />
     <Compile Include="Endpoints\PersonsFindEndpoint.cs" />
     <Compile Include="Endpoints\PipelinesEndpoint.cs" />
