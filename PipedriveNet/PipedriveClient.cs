@@ -6,14 +6,14 @@ using PipedriveNet.Endpoints;
 namespace PipedriveNet
 {
 
-	public class PipedriveClient : PipedriveClient<PersonDto, PipelineDto, StageDto, DealDto, UserDto, PersonFindDto, FileDto>
+	public class PipedriveClient : PipedriveClient<PersonDto, PipelineDto, StageDto, DealDto, UserDto, PersonFindDto, FileDto, OrganizationDto>
     {
 		public PipedriveClient(string apiKey) : base(apiKey)
 		{
 		}
 	}
 
-    public class PipedriveClient<TPerson, TPipeline, TStage, TDeal, TUser, TPersonFind, TFile> 
+    public class PipedriveClient<TPerson, TPipeline, TStage, TDeal, TUser, TPersonFind, TFile, TOrganization> 
         where TPerson : PersonDto
         where TPersonFind : PersonFindDto
         where TPipeline : PipelineDto
@@ -21,6 +21,7 @@ namespace PipedriveNet
         where TDeal : DealDto
         where TUser : UserDto
         where TFile : FileDto
+        where TOrganization: OrganizationDto
     {
 		private readonly ContractResolver _resolver = new ContractResolver();
 
@@ -35,6 +36,8 @@ namespace PipedriveNet
         public UsersEndpoint<TUser> Users { get; private set; }
         public FilesEndpoint<TFile> Files { get; private set; }
 
+        public OrganizationsEndpoint<TOrganization> Organizations { get; private set; }
+
         public PipedriveClient(string apiKey)
 	    {
 	        if (apiKey == null) throw new ArgumentNullException("apiKey");
@@ -48,6 +51,7 @@ namespace PipedriveNet
 	        Notes = new NotesEndpoint(client);
             Users = new UsersEndpoint<TUser>(client);
             Files = new FilesEndpoint<TFile>(client);
+            Organizations = new OrganizationsEndpoint<TOrganization>(client);
         }
 
         public class CustomFieldConfigurator<T>

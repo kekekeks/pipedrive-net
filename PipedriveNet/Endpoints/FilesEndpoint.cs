@@ -23,7 +23,7 @@ namespace PipedriveNet.Endpoints
 	        get { return _client.Get<List<TFile>>("files"); }
 	    }
 
-	    public Task<TFile> Create(ByteArrayContent filedata, int dealId = 0, int personId = 0, int orgId = 0)
+	    public Task<TFile> Create(String FileName, ByteArrayContent filedata, int dealId = 0, int personId = 0, int orgId = 0)
 	    {
             MultipartFormDataContent form = new MultipartFormDataContent();
             if (dealId != 0)
@@ -38,7 +38,7 @@ namespace PipedriveNet.Endpoints
             {
                 form.Add(new StringContent(orgId.ToString()), "orgId");
             }
-            form.Add(filedata);
+            form.Add(filedata,"file", FileName);
             return _client.PostMultipart<TFile>("files", form);
 	    }
 

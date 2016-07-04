@@ -65,6 +65,7 @@
     <Compile Include="Endpoints\DealsEndpoint.cs" />
     <Compile Include="Endpoints\NotesEndpoint.cs" />
     <Compile Include="Endpoints\FilesEndpoint.cs" />
+    <Compile Include="Endpoints\OrganizationsEndpoint.cs" />
     <Compile Include="Endpoints\PersonsEndpoint.cs" />
     <Compile Include="Endpoints\PersonsFindEndpoint.cs" />
     <Compile Include="Endpoints\PipelinesEndpoint.cs" />

@@ -75,28 +75,50 @@ namespace PipedriveNet
 
 	    Task<T> Send<T>(string endpoint, HttpMethod method, object data)
 	    {
-	        var ms = new MemoryStream();
-	        var jsonWriter = new JsonTextWriter(new StreamWriter(ms));
-            Serializer.Serialize(jsonWriter, data);
-            jsonWriter.Flush();
-	        ms.Seek(0, SeekOrigin.Begin);
+            try {
+	            var ms = new MemoryStream();
+	            var jsonWriter = new JsonTextWriter(new StreamWriter(ms));
+                Serializer.Serialize(jsonWriter, data);
+                jsonWriter.Flush();
+	            ms.Seek(0, SeekOrigin.Begin);
 
-	        var message = new HttpRequestMessage(method, GetUri(endpoint));
-	        if (data != null)
-	            message.Content = new StreamContent(ms)
-	            {
-	                Headers = {ContentType = new MediaTypeHeaderValue("application/json") {CharSet = "utf-8"}}
-	            };
+	            var message = new HttpRequestMessage(method, GetUri(endpoint));
+	            if (data != null)
+	                message.Content = new StreamContent(ms)
+	                {
+	                    Headers = {ContentType = new MediaTypeHeaderValue("application/json") {CharSet = "utf-8"}}
+	                };
 
-	        return Deserialize<T>(HttpClient.SendAsync(message));
-	    }
+                Task<HttpResponseMessage> returnValue = HttpClient.SendAsync(message);
+            
+                return Deserialize<T>(returnValue);
+            }
+            catch (System.Exception e)
+            {
+                string errMsg = e.Message;
+                return null;
+
+            }
+        }
 
         Task<T> SendMultipart<T>(string endpoint, HttpMethod method, MultipartFormDataContent form)
         {
-            HttpClient httpClient = new HttpClient();
+            try
+            {
+                HttpClient httpClient = new HttpClient();
             var message = new HttpRequestMessage(method, GetUri(endpoint));
-            return Deserialize<T>(httpClient.PostAsync(message.RequestUri, form));
+
+            Task<HttpResponseMessage> returnValue = HttpClient.PostAsync(message.RequestUri, form);
+
+            return Deserialize<T>(returnValue);
             httpClient.Dispose();
+            }
+            catch (System.Exception e)
+            {
+                string errMsg = e.Message;
+                return null;
+
+            }
         }
 
         public Task Delete(string endpoint)
