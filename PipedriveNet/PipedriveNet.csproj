@@ -54,6 +54,7 @@
     <Compile Include="ContractResolver.cs" />
     <Compile Include="Dto\ActivityDto.cs" />
     <Compile Include="Dto\DealDto.cs" />
+    <Compile Include="Dto\NoteDto.cs" />
     <Compile Include="Dto\OrganizationDto.cs" />
     <Compile Include="Dto\PersonDto.cs" />
     <Compile Include="Dto\PersonFindDto.cs" />

@@ -53,22 +53,51 @@ namespace PipedriveNet
 
 	    async Task<T> Deserialize<T>(Task<HttpResponseMessage> resp)
 	    {
-	        using (var stream = await (await resp).Content.ReadAsStreamAsync())
-	        {
-	            var container = Serializer.Deserialize<ResponseContainer<T>>(new JsonTextReader(new StreamReader(stream)));
-                if(!container.Success)
+            using (var stream = await (await resp).Content.ReadAsStreamAsync())
+            {
+
+
+                var container = Serializer.Deserialize<ResponseContainer<T>>(new JsonTextReader(new StreamReader(stream)));
+                if (!container.Success)
                     throw new PipedriveException(container.Error);
 
                 //Replace null by empty list
-	            if (container.Data == null && typeof (T).IsGenericType &&
-	                typeof (T).GetGenericTypeDefinition() == typeof (List<>))
-	                container.Data = Activator.CreateInstance<T>();
+                if (container.Data == null && typeof(T).IsGenericType &&
+                    typeof(T).GetGenericTypeDefinition() == typeof(List<>))
+                    container.Data = Activator.CreateInstance<T>();
 
-	            return container.Data;
-	        }
+                return container.Data;
+            }
 	    }
+        async Task<T> DeserializeTest<T>(Task<HttpResponseMessage> resp)
+        {
+            using (var stream = await (await resp).Content.ReadAsStreamAsync())
+            {
 
-	    public Task<T> Get<T>(string endpoint)
+                Char[] buffer;
+                using (var sr = new StreamReader(stream))
+                {
+                    buffer = new Char[(int)sr.BaseStream.Length];
+                    await sr.ReadAsync(buffer, 0, (int)sr.BaseStream.Length);
+                }
+                String response = new string(buffer);
+
+
+                var container = Serializer.Deserialize<ResponseContainer<T>>(new JsonTextReader(new StreamReader(stream)));
+                if (!container.Success)
+                    throw new PipedriveException(container.Error);
+
+                //Replace null by empty list
+                if (container.Data == null && typeof(T).IsGenericType &&
+                    typeof(T).GetGenericTypeDefinition() == typeof(List<>))
+                    container.Data = Activator.CreateInstance<T>();
+
+                return container.Data;
+            }
+        }
+
+
+        public Task<T> Get<T>(string endpoint)
 	    {
 	        return Deserialize<T>(HttpClient.GetAsync(GetUri(endpoint)));
 	    }
@@ -110,7 +139,10 @@ namespace PipedriveNet
 
             Task<HttpResponseMessage> returnValue = HttpClient.PostAsync(message.RequestUri, form);
 
-            return Deserialize<T>(returnValue);
+             Task<T> thisResponse = DeserializeTest<T>(returnValue);
+
+             return thisResponse;
+
             httpClient.Dispose();
             }
             catch (System.Exception e)
