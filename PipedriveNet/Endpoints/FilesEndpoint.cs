@@ -28,17 +28,18 @@ namespace PipedriveNet.Endpoints
             MultipartFormDataContent form = new MultipartFormDataContent();
             if (dealId != 0)
             {
-                form.Add(new StringContent(dealId.ToString()), "dealId");
+                form.Add(new StringContent(dealId.ToString()), "deal_id");
             }
             if (personId != 0)
             {
-                form.Add(new StringContent(personId.ToString()), "personId");
+                form.Add(new StringContent(personId.ToString()), "person_id");
             }
             if (orgId != 0)
             {
-                form.Add(new StringContent(orgId.ToString()), "orgId");
+                form.Add(new StringContent(orgId.ToString()), "org_id");
             }
-
+   
+            filedata.Headers.Add("Content-Type", "application/octet-stream");
             form.Add(filedata,"file", FileName);
             return _client.PostMultipart<TFile>("files", form);
 	    }

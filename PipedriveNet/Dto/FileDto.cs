@@ -9,15 +9,15 @@ namespace PipedriveNet.Dto
     public class FileDto
     {
         public int Id { get; set; }
-        public int UserId { get; set; }
-        public int DealId { get; set; }
-        public int PersonId { get; set; }
-        public int OrgId { get; set; }
-        public int ProductId{ get; set; }
-        public int EmailMessaageId { get; set; }
-        public int ActivityId { get; set; }
-        public int NoteId { get; set; }
-        public int LogId { get; set; }
+        public int? UserId { get; set; }
+        public int? DealId { get; set; }
+        public int? PersonId { get; set; }
+        public int? OrgId { get; set; }
+        public int? ProductId { get; set; }
+        public int? EmailMessaageId { get; set; }
+        public int? ActivityId { get; set; }
+        public int? NoteId { get; set; }
+        public int? LogId { get; set; }
         public DateTime AddTime { get; set; }
         public DateTime UpdateTime { get; set; }
         public string FileName { get; set; }
