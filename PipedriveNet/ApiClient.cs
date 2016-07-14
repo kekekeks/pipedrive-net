@@ -53,46 +53,107 @@ namespace PipedriveNet
 
 	    async Task<T> Deserialize<T>(Task<HttpResponseMessage> resp)
 	    {
-	        using (var stream = await (await resp).Content.ReadAsStreamAsync())
-	        {
-	            var container = Serializer.Deserialize<ResponseContainer<T>>(new JsonTextReader(new StreamReader(stream)));
-                if(!container.Success)
+            using (var stream = await (await resp).Content.ReadAsStreamAsync())
+            {
+
+
+                var container = Serializer.Deserialize<ResponseContainer<T>>(new JsonTextReader(new StreamReader(stream)));
+                if (!container.Success)
                     throw new PipedriveException(container.Error);
 
                 //Replace null by empty list
-	            if (container.Data == null && typeof (T).IsGenericType &&
-	                typeof (T).GetGenericTypeDefinition() == typeof (List<>))
-	                container.Data = Activator.CreateInstance<T>();
+                if (container.Data == null && typeof(T).IsGenericType &&
+                    typeof(T).GetGenericTypeDefinition() == typeof(List<>))
+                    container.Data = Activator.CreateInstance<T>();
 
-	            return container.Data;
-	        }
+                return container.Data;
+            }
 	    }
+        async Task<T> DeserializeTest<T>(Task<HttpResponseMessage> resp)
+        {
+            using (var stream = await (await resp).Content.ReadAsStreamAsync())
+            {
 
-	    public Task<T> Get<T>(string endpoint)
+                Char[] buffer;
+                using (var sr = new StreamReader(stream))
+                {
+                    buffer = new Char[(int)sr.BaseStream.Length];
+                    await sr.ReadAsync(buffer, 0, (int)sr.BaseStream.Length);
+                }
+                String response = new string(buffer);
+
+
+                var container = Serializer.Deserialize<ResponseContainer<T>>(new JsonTextReader(new StreamReader(stream)));
+                if (!container.Success)
+                    throw new PipedriveException(container.Error);
+
+                //Replace null by empty list
+                if (container.Data == null && typeof(T).IsGenericType &&
+                    typeof(T).GetGenericTypeDefinition() == typeof(List<>))
+                    container.Data = Activator.CreateInstance<T>();
+
+                return container.Data;
+            }
+        }
+
+
+        public Task<T> Get<T>(string endpoint)
 	    {
 	        return Deserialize<T>(HttpClient.GetAsync(GetUri(endpoint)));
 	    }
 
 	    Task<T> Send<T>(string endpoint, HttpMethod method, object data)
 	    {
-	        var ms = new MemoryStream();
-	        var jsonWriter = new JsonTextWriter(new StreamWriter(ms));
-            Serializer.Serialize(jsonWriter, data);
-            jsonWriter.Flush();
-	        ms.Seek(0, SeekOrigin.Begin);
+            try {
+	            var ms = new MemoryStream();
+	            var jsonWriter = new JsonTextWriter(new StreamWriter(ms));
+                Serializer.Serialize(jsonWriter, data);
+                jsonWriter.Flush();
+	            ms.Seek(0, SeekOrigin.Begin);
 
-	        var message = new HttpRequestMessage(method, GetUri(endpoint));
-	        if (data != null)
-	            message.Content = new StreamContent(ms)
-	            {
-	                Headers = {ContentType = new MediaTypeHeaderValue("application/json") {CharSet = "utf-8"}}
-	            };
+	            var message = new HttpRequestMessage(method, GetUri(endpoint));
+	            if (data != null)
+	                message.Content = new StreamContent(ms)
+	                {
+	                    Headers = {ContentType = new MediaTypeHeaderValue("application/json") {CharSet = "utf-8"}}
+	                };
 
-	        return Deserialize<T>(HttpClient.SendAsync(message));
-	    }
+                Task<HttpResponseMessage> returnValue = HttpClient.SendAsync(message);
+            
+                return Deserialize<T>(returnValue);
+            }
+            catch (System.Exception e)
+            {
+                string errMsg = e.Message;
+                return null;
 
+            }
+        }
 
-	    public Task Delete(string endpoint)
+        Task<T> SendMultipart<T>(string endpoint, HttpMethod method, MultipartFormDataContent form)
+        {
+            try
+            {
+                HttpClient httpClient = new HttpClient();
+            var message = new HttpRequestMessage(method, GetUri(endpoint));
+
+             Task<HttpResponseMessage> returnValue = HttpClient.PostAsync(message.RequestUri, form);
+
+             Task<T> thisResponse = Deserialize<T>(returnValue);
+
+             return thisResponse;
+
+            httpClient.Dispose();
+            }
+            catch (System.Exception e)
+            {
+                string errMsg = e.Message;
+                return null;
+
+            }
+        }
+
+        public Task Delete(string endpoint)
 	    {
 	        return Send<object>(endpoint, HttpMethod.Delete, null);
 	    }
@@ -103,7 +164,13 @@ namespace PipedriveNet
 
 	    }
 
-	    public Task<T> Put<T>(string endpoint, object data)
+        public Task<T> PostMultipart<T>(string endpoint, MultipartFormDataContent data)
+        {
+            return SendMultipart<T>(endpoint, HttpMethod.Post, data);
+
+        }
+
+        public Task<T> Put<T>(string endpoint, object data)
 	    {
             return Send<T>(endpoint, HttpMethod.Put, data);
 	    }

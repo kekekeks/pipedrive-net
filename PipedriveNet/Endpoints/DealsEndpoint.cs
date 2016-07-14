@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,7 +37,7 @@ namespace PipedriveNet.Endpoints
 
 
         public Task<TDeal> Create(string title, string value = null, string currency = null, int? personId = null,
-            int? stageId = null, int? userId = null)
+            int? stageId = null, int? userId = null, int? orgId = null, Dictionary<Expression<Func<TDeal, object>>, object> extras = null)
         {
             var req = new JObject();
             req["title"] = title;
@@ -50,6 +51,13 @@ namespace PipedriveNet.Endpoints
                 req["stage_id"] = stageId;
             if (userId != null)
                 req["user_id"] = userId;
+            if (orgId != null)
+                req["org_id"] = orgId;
+            if (extras != null)
+                foreach (var extra in extras)
+                {
+                    req[_client.ResolveProperty(extra.Key)] = JToken.FromObject(extra.Value, _client.Serializer);
+                }
             return _client.Post<TDeal>("deals", req);
         }
 
