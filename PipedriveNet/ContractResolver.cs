@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -12,7 +9,7 @@ namespace PipedriveNet
     internal class ContractResolver : DefaultContractResolver
     {
         private readonly Dictionary<MemberInfo, string> _names = new Dictionary<MemberInfo, string>();
-        public ContractResolver() : base(false)
+        public ContractResolver() : base()
         {
 
         }
