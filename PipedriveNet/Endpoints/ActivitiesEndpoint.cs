@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using PipedriveNet.Dto;
@@ -16,7 +14,7 @@ namespace PipedriveNet.Endpoints
         {
             _client = client;
         }
-        
+
         public Task Delete(int id)
         {
             return _client.Delete("activities/" + id);

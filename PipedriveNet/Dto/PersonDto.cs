@@ -2,8 +2,8 @@
 
 namespace PipedriveNet.Dto
 {
-	public class PersonDto
-	{
+    public class PersonDto
+    {
         public int Id { get; set; }
         public OrganizationDto OrgId { get; set; }
         public string Name { get; set; }
@@ -11,10 +11,10 @@ namespace PipedriveNet.Dto
         public string LastName { get; set; }
         public List<PipedriveStringListItemDto> Email { get; set; }
         public List<PipedriveStringListItemDto> Phone { get; set; }
-	}
+    }
 
     /* TODO: Add remaining fields
-     
+
     * id": 1,
             "company_id": 340542,
             "owner_id": {
