@@ -9,7 +9,7 @@ namespace PipedriveNet
     internal class ContractResolver : DefaultContractResolver
     {
         private readonly Dictionary<MemberInfo, string> _names = new Dictionary<MemberInfo, string>();
-        public ContractResolver() : base(false)
+        public ContractResolver() : base()
         {
 
         }
