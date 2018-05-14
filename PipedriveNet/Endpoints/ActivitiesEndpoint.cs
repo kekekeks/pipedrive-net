@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using PipedriveNet.Dto;
@@ -24,16 +22,40 @@ namespace PipedriveNet.Endpoints
 
         public Task<ActivityDto> Create(int dealId, string type, string subject, DateTime? due)
         {
-            var req = new JObject();
-            req["deal_id"] = dealId;
-            req["type"] = type;
-            req["subject"] = subject;
+            var request = new JObject
+            {
+                ["deal_id"] = dealId,
+                ["type"] = type,
+                ["subject"] = subject
+            };
+
             if (due.HasValue)
             {
-                req["due_date"] = due.Value.ToString("yyyy-MM-dd");
-                req["due_time"] = due.Value.ToString("hh:mm");
+                request["due_date"] = due.Value.ToString("yyyy-MM-dd");
+                request["due_time"] = due.Value.ToString("hh:mm");
             }
-            return _client.Post<ActivityDto>("activities", req);
+
+            return _client.Post<ActivityDto>("activities", request);
+        }
+
+        public Task<ActivityDto> CreateTask(int orgId, int personId, string subject, int userId, DateTime? due)
+        {
+            var request = new JObject
+            {
+                ["org_id"] = orgId,
+                ["person_id"] = personId,
+                ["user_id"] = userId,
+                ["type"] = "task",
+                [nameof(subject)] = subject
+            };
+
+            if (due.HasValue)
+            {
+                request["due_date"] = due.Value.ToString("yyyy-MM-dd");
+                request["due_time"] = due.Value.ToString("hh:mm");
+            }
+
+            return _client.Post<ActivityDto>("activities", request);
         }
 
         public Task<List<ActivityDto>> GetByDeal(int dealId)
