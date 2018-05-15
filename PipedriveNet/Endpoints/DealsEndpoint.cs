@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using PipedriveNet.Dto;
 
 namespace PipedriveNet.Endpoints
 {
-    public class DealsEndpoint <TDeal>
+    public class DealsEndpoint<TDeal>
     {
         private readonly ApiClient _client;
 
@@ -27,7 +24,7 @@ namespace PipedriveNet.Endpoints
         public Task<List<TDeal>> GetByPersonId(int personId, DealStatus? status = null)
         {
             var ep = "persons/" + personId + "/deals";
-            var qs = new QueryString() {{"limit", "9000"}};
+            var qs = new QueryString() { { "limit", "9000" } };
             if (status != null)
                 qs["status"] = status.ToString().ToLower();
             ep += qs;
@@ -64,12 +61,12 @@ namespace PipedriveNet.Endpoints
                 req["stage_id"] = stageId;
             if (value != null)
                 req["value"] = value;
-           return _client.Put<TDeal>("deals/" + id, req);
+            return _client.Put<TDeal>("deals/" + id, req);
         }
 
         public Task<TDeal> Merge(int id, int mergeWith)
         {
-            return _client.Put<TDeal>("deals/" + id + "/duplicate", new {MergeWithId = mergeWith});
+            return _client.Put<TDeal>("deals/" + id + "/duplicate", new { MergeWithId = mergeWith });
         }
 
         public Task Delete(int id)

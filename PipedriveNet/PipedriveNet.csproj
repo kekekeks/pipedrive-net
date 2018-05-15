@@ -55,6 +55,7 @@
     <Compile Include="Dto\UserDto.cs" />
     <Compile Include="Endpoints\DealsEndpoint.cs" />
     <Compile Include="Endpoints\NotesEndpoint.cs" />
+    <Compile Include="Endpoints\OrganizationsEndpoint.cs" />
     <Compile Include="Endpoints\PersonsEndpoint.cs" />
     <Compile Include="Endpoints\PipelinesEndpoint.cs" />
     <Compile Include="Endpoints\ActivitiesEndpoint.cs" />

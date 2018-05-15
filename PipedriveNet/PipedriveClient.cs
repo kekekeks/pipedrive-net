@@ -6,23 +6,23 @@ using PipedriveNet.Endpoints;
 namespace PipedriveNet
 {
 
-	public class PipedriveClient : PipedriveClient<PersonDto, PipelineDto, StageDto, DealDto, UserDto>
+    public class PipedriveClient : PipedriveClient<PersonDto, PipelineDto, StageDto, DealDto, UserDto>
     {
-		public PipedriveClient(string apiKey) : base(apiKey)
-		{
-		}
-	}
+        public PipedriveClient(string apiKey) : base(apiKey)
+        {
+        }
+    }
 
-    public class PipedriveClient<TPerson, TPipeline, TStage, TDeal, TUser> 
-        where TPerson : PersonDto 
+    public class PipedriveClient<TPerson, TPipeline, TStage, TDeal, TUser>
+        where TPerson : PersonDto
         where TPipeline : PipelineDto
         where TStage : StageDto
         where TDeal : DealDto
         where TUser : UserDto
     {
-		private readonly ContractResolver _resolver = new ContractResolver();
+        private readonly ContractResolver _resolver = new ContractResolver();
 
-		public PersonsEndpoint<TPerson> Persons { get; private set; }
+        public PersonsEndpoint<TPerson> Persons { get; private set; }
         public PipelinesEndpoint<TPipeline> Pipelines { get; private set; }
         public StagesEndpoint<TStage> Stages { get; private set; }
         public DealsEndpoint<TDeal> Deals { get; private set; }
@@ -31,15 +31,15 @@ namespace PipedriveNet
         public UsersEndpoint<TUser> Users { get; private set; }
 
         public PipedriveClient(string apiKey)
-	    {
-	        if (apiKey == null) throw new ArgumentNullException("apiKey");
-	        var client = new ApiClient(apiKey, _resolver);
-		    Persons = new PersonsEndpoint<TPerson>(client);
+        {
+            if (apiKey == null) throw new ArgumentNullException("apiKey");
+            var client = new ApiClient(apiKey, _resolver);
+            Persons = new PersonsEndpoint<TPerson>(client);
             Pipelines = new PipelinesEndpoint<TPipeline>(client);
             Stages = new StagesEndpoint<TStage>(client);
-	        Deals = new DealsEndpoint<TDeal>(client);
+            Deals = new DealsEndpoint<TDeal>(client);
             Activites = new ActivitesEndpoint(client);
-	        Notes = new NotesEndpoint(client);
+            Notes = new NotesEndpoint(client);
             Users = new UsersEndpoint<TUser>(client);
         }
 

@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using PipedriveNet.Dto;
 
 namespace PipedriveNet.Endpoints
 {
-    public class StagesEndpoint <TStage>
+    public class StagesEndpoint<TStage>
     {
         private readonly ApiClient _client;
 
