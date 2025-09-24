@@ -1,3 +1,6 @@
+# ARCHIVED
+Use this one instead https://github.com/DavidRouyer/pipedrive-dotnet
+
 # pipedrive-net
 .NET client for Pipedrive API ( https://developers.pipedrive.com/v1 )
 
